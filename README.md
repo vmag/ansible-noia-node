@@ -1,7 +1,7 @@
-NOIA NODE Ansible role
+Ansible Role: NOIA NETWORK node
 =========
 
-Ansible role to deploy NOIA Network node on Centos 7.x server
+An Ansible Role that installs NOIA NETWORK node on RHEL/CentOS.
 
 
 How to run
@@ -12,6 +12,6 @@ How to run
 License
 -------
 
-BSD
+MIT / BSD
 
 
