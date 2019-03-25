@@ -4,7 +4,7 @@ version=1.0.0
 userDataPath=/root/.noia-node
 domain=null
 masterAddress=wss://csl-masters.noia.network:5565
-nodeId=zHx1ZMSKVQoRHTY5c6iQzDFUyd3iOX4ttAbpp0zE
+nodeId=
 natPmp=false
 autoReconnect=true
 
