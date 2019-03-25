@@ -1,0 +1,16 @@
+[Unit]
+Description=NOIA Node
+
+[Service]
+# If script is installed locally, set its location.
+ExecStart=/usr/bin/npm start
+Restart=always
+User=root
+Group=root
+Environment=NODE_ENV=production
+# Set working directory.
+WorkingDirectory=/usr/src/noia-node-cli
+
+
+[Install]
+WantedBy=multi-user.target

@@ -13,6 +13,14 @@
     force: no
   tags: repo
 
+- name: Copy systemd file
+  copy:
+    src: files/noia-node.service
+    dest: /etc/systemd/system/noia-node.service
+    mode: 0700
+    force: no
+  tags: systemd
+
 - name: create config directory
   file:
     path: "{{ item }}"
@@ -97,3 +105,9 @@
     chdir: /usr/src/noia-node-cli/
   tags: install
 
+- name: enable NOIA node service
+  systemd:
+    name: noia-node-service
+    state: started
+    enabled: yes
+  tags: systemd
