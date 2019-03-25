@@ -1,0 +1,8 @@
+---
+- hosts: noia-node-cli
+  user: root
+
+  roles:
+  - ansible-noia-node
+  
+

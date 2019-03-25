@@ -1,0 +1,99 @@
+---
+- name: Install epel-release
+  yum:
+    state: present
+    name:
+      - epel-release
+
+- name: Install nodejs repo
+  copy:
+    src: files/node.repo
+    dest: /etc/yum.repos.d/node.repo
+    mode: 0600
+    force: no
+  tags: repo
+
+- name: create config directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - /root/.noia-node
+  tags: settings
+
+- name: Copy node settings
+  copy:
+    src: files/node.settings
+    dest: /root/.noia-node/node.settings
+    mode: 0600
+    force: no
+  tags: settings
+
+- name: update repo cache for the new repo
+  command: yum -q makecache -y
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install selinux python library for CentOS
+  package: name={{item}} state=present
+  with_items:
+  - libselinux-python
+  - bind-utils
+  when: ansible_distribution == "CentOS"
+  tags: package-os
+
+- name: Install selinux python library
+  package: name={{item}} state=present
+  with_items:
+  - python-selinux
+  - dnsutils
+  when: ansible_distribution == "Debian"
+  tags: package-os
+
+- name: Install packages
+  package: name={{item}} state=installed
+  with_items:
+  - nodejs
+  - make
+  - gcc
+  - gcc-c++ 
+  - htop
+  - mc
+  - wget
+  - iperf3
+  - iptraf
+  - mtr
+  - vim
+  - atop
+  - iftop
+  - smartmontools
+  - ncdu
+  - git
+  - ntpdate
+  tags: packages
+
+- git:
+    repo: 'https://github.com/noia-network/noia-node-cli.git'
+    dest: /usr/src/noia-node-cli/
+    version: master
+    force: yes
+  tags: github
+
+- name: Install typescript
+  shell: npm install -g typescript
+  args:
+    chdir: /usr/src/noia-node-cli/
+  tags: install_typescript
+
+- name: Install NOIA node
+  shell: npm install @types/node npm@latest -g
+  args:
+    chdir: /usr/src/noia-node-cli/
+  tags: install
+
